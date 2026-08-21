@@ -14,10 +14,11 @@
   :root{
     --bg:#0B0B0C;
     --panel:#141416;
+    --panel-sub:#1a1a1e;
     --ink:#F4F3EE;
     --mute:#8B8B85;
-    --line: rgba(244,243,238,0.14);
-    --line-strong: rgba(244,243,238,0.28);
+    --line: rgba(244,243,238,0.12);
+    --line-strong: rgba(244,243,238,0.24);
     --volt:#D6FF3F;
   }
   *{box-sizing:border-box; margin:0; padding:0;}
@@ -34,7 +35,7 @@
     max-width:860px;
     width:100%;
     margin:0 auto;
-    padding:20px 16px 80px;
+    padding:18px 14px 70px;
   }
 
   /* MASTHEAD */
@@ -42,9 +43,9 @@
     display:flex;
     align-items:center;
     justify-content:space-between;
-    gap:12px;
+    gap:10px;
     flex-wrap:wrap;
-    padding-bottom:16px;
+    padding-bottom:14px;
   }
   .brand-group{
     display:flex;
@@ -90,12 +91,12 @@
   }
 
   .aspirant-banner{
-    background:rgba(214,255,63,0.04);
+    background:rgba(214,255,63,0.03);
     border:1px dashed var(--line-strong);
-    padding:12px 14px;
-    margin-bottom:18px;
-    font-size:11px;
-    line-height:1.55;
+    padding:10px 12px;
+    margin-bottom:14px;
+    font-size:10.5px;
+    line-height:1.5;
     color:var(--ink);
     border-radius:2px;
     word-break:break-word;
@@ -106,7 +107,7 @@
   .dropzone{
     border:1.5px solid var(--line-strong);
     background:var(--panel);
-    padding:36px 16px;
+    padding:32px 14px;
     text-align:center;
     cursor:pointer;
     position:relative;
@@ -123,39 +124,38 @@
     font-family:'Space Grotesk', sans-serif;
     font-weight:900;
     text-transform:uppercase;
-    font-size:clamp(32px, 7vw, 56px);
+    font-size:clamp(28px, 6.5vw, 52px);
     line-height:1;
     letter-spacing:-.01em;
     margin:0;
   }
   .dz-note{
-    font-size:10px;
+    font-size:9.5px;
     color:var(--mute);
-    letter-spacing:.1em;
+    letter-spacing:.08em;
     text-transform:uppercase;
-    margin-top:12px;
+    margin-top:10px;
     word-break:break-word;
   }
 
-  /* FILE CHIP CONTAINER */
+  /* FILE CHIP */
   #fileChipWrap{
     width:100%;
     display:flex;
     justify-content:center;
-    margin-top:16px;
+    margin-top:14px;
   }
   .file-chip{
     display:inline-flex;
     align-items:center;
     justify-content:space-between;
-    gap:10px;
+    gap:8px;
     background:var(--volt);
     color:#0B0B0C;
-    padding:8px 12px;
+    padding:7px 10px;
     font-family:'JetBrains Mono', monospace;
     font-weight:700;
-    font-size:11px;
-    letter-spacing:.02em;
+    font-size:10.5px;
     max-width:100%;
     width:100%;
     border-radius:2px;
@@ -173,7 +173,7 @@
     color:#0B0B0C;
     cursor:pointer;
     font-weight:800;
-    font-size:15px;
+    font-size:14px;
     line-height:1;
     padding:0 4px;
     flex-shrink:0;
@@ -183,32 +183,33 @@
   .panel{
     background:var(--panel);
     border:1.5px solid var(--line);
-    padding:18px 14px;
-    margin-top:14px;
+    padding:16px 14px;
+    margin-top:12px;
     width:100%;
   }
-  .panel-head{display:flex; align-items:baseline; gap:10px; margin-bottom:14px;}
-  .panel-head .no{font-size:11px; color:var(--volt); letter-spacing:.1em; font-weight:700;}
+  .panel-head{display:flex; align-items:baseline; gap:8px; margin-bottom:12px;}
+  .panel-head .no{font-size:10.5px; color:var(--volt); letter-spacing:.1em; font-weight:700;}
   .panel-head h2{
     font-family:'Space Grotesk',sans-serif;
-    font-weight:700; font-size:14px; letter-spacing:.02em;
+    font-weight:700; font-size:13.5px; letter-spacing:.02em;
     text-transform:uppercase;
   }
   .detected-tag{
-    font-size:10px; color:var(--volt); letter-spacing:.08em; text-transform:uppercase; margin-left:auto;
+    font-size:9.5px; color:var(--volt); letter-spacing:.06em; text-transform:uppercase; margin-left:auto;
   }
 
+  /* N-UP GRID */
   .grid-options{
     display:grid;
-    grid-template-columns:repeat(auto-fit, minmax(64px,1fr));
-    gap:8px;
+    grid-template-columns:repeat(auto-fit, minmax(60px, 1fr));
+    gap:6px;
     width:100%;
   }
   .opt{
     border:1.5px solid var(--line);
     background:transparent;
     border-radius:2px;
-    padding:10px 4px 8px;
+    padding:8px 3px 6px;
     cursor:pointer;
     text-align:center;
     transition:.12s;
@@ -216,55 +217,95 @@
   .opt:hover{border-color:var(--line-strong);}
   .opt.active{border-color:var(--volt); background:rgba(214,255,63,0.08);}
   .opt .mini-grid{
-    display:grid; gap:2px; margin:0 auto 6px; width:32px; height:42px;
+    display:grid; gap:2px; margin:0 auto 5px; width:28px; height:38px;
   }
   .opt .mini-grid div{background:var(--mute); border-radius:1px;}
   .opt.active .mini-grid div{background:var(--volt);}
-  .opt .label{font-family:'JetBrains Mono',monospace; font-size:10px; font-weight:600; color:var(--ink);}
+  .opt .label{font-family:'JetBrains Mono',monospace; font-size:9.5px; font-weight:600; color:var(--ink);}
 
-  .row{display:flex; gap:10px; flex-wrap:wrap; width:100%;}
-  .row > div{flex:1; min-width:130px;}
-  
+  /* SECTION 02: REFINED TUNING ROW MATRIX */
+  .tuning-matrix{
+    display:grid;
+    grid-template-columns: 1fr 1fr;
+    gap:8px;
+    width:100%;
+  }
+  .tuning-card{
+    background:var(--panel-sub);
+    border:1px solid var(--line);
+    border-radius:2px;
+    padding:10px 10px;
+    display:flex;
+    flex-direction:column;
+    justify-content:space-between;
+  }
+  .tuning-card.full-span{
+    grid-column: 1 / -1;
+  }
+
+  .card-top{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    margin-bottom:8px;
+  }
+  .card-top label{
+    font-size:9.5px;
+    font-weight:700;
+    color:var(--mute);
+    letter-spacing:.08em;
+    text-transform:uppercase;
+  }
+  .card-top .badge-hint{
+    font-size:8.5px;
+    color:var(--volt);
+    background:rgba(214,255,63,0.08);
+    padding:2px 5px;
+    border-radius:2px;
+    letter-spacing:.04em;
+  }
+
   .toggle-group{
     display:flex;
     border:1.5px solid var(--line);
     border-radius:2px;
     overflow:hidden;
     width:100%;
+    background:var(--bg);
   }
   .toggle-group button{
-    flex:1; border:none; background:transparent; padding:9px 8px;
-    font-family:'JetBrains Mono', monospace; font-weight:600; font-size:10.5px;
+    flex:1; border:none; background:transparent; padding:7px 4px;
+    font-family:'JetBrains Mono', monospace; font-weight:600; font-size:10px;
     letter-spacing:.02em; cursor:pointer; color:var(--mute);
-    border-right:1.5px solid var(--line);
+    border-right:1px solid var(--line);
     transition:background .12s, color .12s;
     text-align:center;
+    white-space:nowrap;
   }
   .toggle-group button:last-child{border-right:none;}
-  .toggle-group button.active{background:var(--volt); color:#0B0B0C;}
+  .toggle-group button.active{background:var(--volt); color:#0B0B0C; font-weight:700;}
 
-  label.field-label{display:block; font-size:10px; font-weight:600; margin-bottom:6px; color:var(--mute); letter-spacing:.08em; text-transform:uppercase;}
-
-  .margin-slider-wrap{display:none; margin-top:12px;}
-  .margin-slider-wrap.show{display:block;}
-  .margin-slider-row{display:flex; align-items:center; gap:10px;}
+  /* MARGIN SLIDER INLINE */
+  .margin-slider-wrap{display:none; margin-top:8px;}
+  .margin-slider-wrap.show{display:flex; align-items:center; gap:8px;}
   input[type=range]{flex:1; accent-color:var(--volt); cursor:pointer;}
   .margin-value{
-    font-family:'JetBrains Mono', monospace; font-weight:700; font-size:11px;
-    color:var(--ink); min-width:48px; text-align:right;
-    border:1.5px solid var(--line); border-radius:2px; padding:4px 6px; background:transparent;
+    font-family:'JetBrains Mono', monospace; font-weight:700; font-size:10px;
+    color:var(--ink); min-width:42px; text-align:right;
+    border:1px solid var(--line); border-radius:2px; padding:3px 5px; background:var(--bg);
   }
 
-  .stack-wrap{display:flex; align-items:center; gap:20px; flex-wrap:wrap;}
-  .stack{position:relative; width:70px; height:85px; flex-shrink:0;}
+  /* SECTION 03: STATS */
+  .stack-wrap{display:flex; align-items:center; gap:16px; flex-wrap:wrap;}
+  .stack{position:relative; width:60px; height:75px; flex-shrink:0;}
   .sheet{
-    position:absolute; left:50%; top:0; width:50px; height:70px;
+    position:absolute; left:50%; top:0; width:44px; height:60px;
     background:var(--bg); border:1.5px solid var(--mute);
     transform-origin:bottom center;
   }
-  .stats{font-family:'JetBrains Mono', monospace; font-size:12px; line-height:1.7; color:var(--mute);}
-  .stats .big{font-family:'Space Grotesk',sans-serif; font-size:24px; font-weight:700; color:var(--ink);}
-  .stats .arrow-sep{color:var(--volt); margin:0 6px;}
+  .stats{font-family:'JetBrains Mono', monospace; font-size:11.5px; line-height:1.6; color:var(--mute);}
+  .stats .big{font-family:'Space Grotesk',sans-serif; font-size:22px; font-weight:700; color:var(--ink);}
+  .stats .arrow-sep{color:var(--volt); margin:0 4px;}
 
   .cta{
     width:100%;
@@ -274,50 +315,56 @@
     font-family:'Space Grotesk', sans-serif;
     font-weight:700;
     text-transform:uppercase;
-    font-size:13px;
-    letter-spacing:.06em;
-    padding:15px 12px;
+    font-size:12.5px;
+    letter-spacing:.05em;
+    padding:14px 10px;
     border-radius:2px;
     cursor:pointer;
-    margin-top:18px;
+    margin-top:14px;
     transition:.12s;
   }
   .cta:disabled{background:#3a3a35; color:var(--mute); cursor:not-allowed;}
   .cta:not(:disabled):hover{background:#c2ef2c;}
 
-  .progress-wrap{margin-top:14px; display:none;}
+  .progress-wrap{margin-top:12px; display:none;}
   .progress-wrap.show{display:block;}
-  .bar-track{height:6px; background:var(--bg); overflow:hidden; border:1px solid var(--line);}
+  .bar-track{height:5px; background:var(--bg); overflow:hidden; border:1px solid var(--line);}
   .bar-fill{height:100%; width:0%; background:var(--volt); transition:width .2s;}
-  .progress-label{font-family:'JetBrains Mono',monospace; font-size:10px; margin-top:6px; color:var(--mute); letter-spacing:.04em;}
+  .progress-label{font-family:'JetBrains Mono',monospace; font-size:9.5px; margin-top:5px; color:var(--mute); letter-spacing:.03em;}
 
   .result{
     display:none;
-    margin-top:16px;
+    margin-top:14px;
     border:1.5px solid var(--volt);
-    padding:12px 14px;
+    padding:10px 12px;
     align-items:center;
     justify-content:space-between;
-    gap:10px;
+    gap:8px;
     flex-wrap:wrap;
   }
   .result.show{display:flex;}
-  .result .rlabel{font-weight:600; font-size:11px; color:var(--ink); word-break:break-word;}
+  .result .rlabel{font-weight:600; font-size:10.5px; color:var(--ink); word-break:break-word;}
   .result a{
     background:var(--volt); color:#0B0B0C; text-decoration:none;
-    padding:8px 14px; font-family:'Space Grotesk',sans-serif;
-    font-weight:700; font-size:11px; letter-spacing:.04em; text-transform:uppercase;
+    padding:8px 12px; font-family:'Space Grotesk',sans-serif;
+    font-weight:700; font-size:10.5px; letter-spacing:.04em; text-transform:uppercase;
     border-radius:2px;
   }
 
   footer{
-    margin-top:28px;
-    font-size:9.5px;
+    margin-top:24px;
+    font-size:9px;
     color:var(--mute);
     letter-spacing:.04em;
     text-align:center;
-    line-height:1.6;
-    padding:0 8px;
+    line-height:1.5;
+    padding:0 6px;
+  }
+
+  @media (max-width: 480px) {
+    .tuning-matrix {
+      grid-template-columns: 1fr;
+    }
   }
 </style>
 </head>
@@ -333,7 +380,7 @@
   </div>
 
   <div class="aspirant-banner">
-    ⚡ <strong>Built for JEE, NEET, GATE & ESE Aspirants:</strong> Squeeze 100s of pages of lecture slides into compact sheets with intelligent Auto-Orientation. Invert dark slides to save printer ink. <strong>100% Client-Side & Private</strong>.
+    ⚡ <strong>Built for JEE, NEET, GATE & ESE Aspirants:</strong> Multi-slide merging with auto-orientation & local dark slide inversion. <strong>100% Client-Side & Private</strong>.
   </div>
 
   <div class="dropzone" id="dropzone">
@@ -352,47 +399,63 @@
     <div class="grid-options" id="layoutOptions"></div>
   </div>
 
+  <!-- CLEAN STREAMLINED SECTION 02 -->
   <div class="panel" id="setupPanel" style="display:none;">
-    <div class="panel-head"><span class="no">02</span><h2>Sheet & Color Tuning</h2></div>
-    
-    <div class="row" style="margin-bottom:14px;">
-      <div>
-        <label class="field-label">Paper Size</label>
+    <div class="panel-head">
+      <span class="no">02</span>
+      <h2>Sheet & Color Tuning</h2>
+    </div>
+
+    <div class="tuning-matrix">
+      <!-- Paper Size -->
+      <div class="tuning-card">
+        <div class="card-top">
+          <label>Paper Size</label>
+        </div>
         <div class="toggle-group" id="paperSizeToggle">
           <button data-v="A4" class="active">A4</button>
           <button data-v="Letter">Letter</button>
         </div>
       </div>
-      <div>
-        <label class="field-label">Orientation</label>
+
+      <!-- Orientation -->
+      <div class="tuning-card">
+        <div class="card-top">
+          <label>Orientation</label>
+          <span class="badge-hint">Smart</span>
+        </div>
         <div class="toggle-group" id="orientationToggle">
-          <button data-v="auto" class="active">Auto (Smart)</button>
+          <button data-v="auto" class="active">Auto</button>
           <button data-v="portrait">Portrait</button>
           <button data-v="landscape">Landscape</button>
         </div>
       </div>
-    </div>
 
-    <div style="margin-bottom:14px;">
-      <label class="field-label">Dark Theme Inversion (Ink Saver)</label>
-      <div class="toggle-group" id="invertToggle">
-        <button data-v="off" class="active">Normal (Original)</button>
-        <button data-v="on">Invert (Black → White)</button>
+      <!-- Dark Slide Inversion -->
+      <div class="tuning-card full-span">
+        <div class="card-top">
+          <label>Dark Slide Inverter</label>
+          <span class="badge-hint">💡 Save Black Toner</span>
+        </div>
+        <div class="toggle-group" id="invertToggle">
+          <button data-v="off" class="active">Original Color</button>
+          <button data-v="on">Invert (Black → White)</button>
+        </div>
       </div>
-      <p style="font-size:9.5px; color:var(--mute); margin-top:5px; line-height:1.4;">
-        💡 Flips dark coaching slides to white paper to cut down black toner usage.
-      </p>
-    </div>
 
-    <label class="field-label">Margins</label>
-    <div class="toggle-group" id="marginToggle">
-      <button data-v="none" class="active">None</button>
-      <button data-v="on">Add Margin</button>
-    </div>
-    <div class="margin-slider-wrap" id="marginSliderWrap">
-      <div class="margin-slider-row">
-        <input type="range" id="marginRange" min="1" max="20" step="1" value="5">
-        <span class="margin-value" id="marginValue">5mm</span>
+      <!-- Margins -->
+      <div class="tuning-card full-span">
+        <div class="card-top">
+          <label>Page Margins</label>
+        </div>
+        <div class="toggle-group" id="marginToggle">
+          <button data-v="none" class="active">None</button>
+          <button data-v="on">Custom Margin</button>
+        </div>
+        <div class="margin-slider-wrap" id="marginSliderWrap">
+          <input type="range" id="marginRange" min="1" max="20" step="1" value="5">
+          <span class="margin-value" id="marginValue">5mm</span>
+        </div>
       </div>
     </div>
   </div>
@@ -407,7 +470,7 @@
         <span class="big" id="newSheets">0</span> sheets
         <br>
         <span id="savedPct">0% less paper</span>
-        <div style="font-size:10px; color:var(--volt); margin-top:3px;" id="sheetLayoutSummary"></div>
+        <div style="font-size:9.5px; color:var(--volt); margin-top:2px;" id="sheetLayoutSummary"></div>
       </div>
     </div>
 
@@ -529,7 +592,6 @@ function renderLayoutOptions() {
   });
 }
 
-// Initial render so 8-up is immediately available
 renderLayoutOptions();
 
 function wireToggle(id, key, callback){
@@ -604,521 +666,14 @@ async function handleFile(file){
   state.pdfJsDoc = await pdfjsLib.getDocument({ data: state.rawBuffer.slice(0) }).promise;
   state.numPages = state.srcDoc.getPageCount();
 
-  // Detect aspect ratio of the first page
   const firstPage = state.srcDoc.getPage(0);
   const { width, height } = firstPage.getSize();
   state.isInputLandscape = width > height;
 
   const detectedTag = document.getElementById('detectedTag');
   if (detectedTag) {
-    detectedTag.textContent = state.isInputLandscape ? '⚡ Detected: Landscape Slides' : '⚡ Detected: Portrait Notes';
+    detectedTag.textContent = state.isInputLandscape ? '⚡ Landscape Slides' : '⚡ Portrait Notes';
   }
-
-  renderLayoutOptions();
-
-  document.getElementById('layoutPanel').style.displ  .dropzone{
-    border:1.5px solid var(--line-strong);
-    background:var(--panel);
-    padding:36px 16px;
-    text-align:center;
-    cursor:pointer;
-    position:relative;
-    width:100%;
-    overflow:hidden;
-    transition:background .2s ease, border-color .2s ease;
-  }
-  .dropzone:hover, .dropzone.drag{
-    border-color:var(--volt);
-    background:#17170F;
-  }
-  .dropzone input{display:none;}
-  .dz-label{
-    font-family:'Space Grotesk', sans-serif;
-    font-weight:900;
-    text-transform:uppercase;
-    font-size:clamp(32px, 7vw, 56px);
-    line-height:1;
-    letter-spacing:-.01em;
-    margin:0;
-  }
-  .dz-note{
-    font-size:10px;
-    color:var(--mute);
-    letter-spacing:.1em;
-    text-transform:uppercase;
-    margin-top:12px;
-    word-break:break-word;
-  }
-
-  /* FILE CHIP */
-  #fileChipWrap{
-    width:100%;
-    display:flex;
-    justify-content:center;
-    margin-top:16px;
-  }
-  .file-chip{
-    display:inline-flex;
-    align-items:center;
-    justify-content:space-between;
-    gap:10px;
-    background:var(--volt);
-    color:#0B0B0C;
-    padding:8px 12px;
-    font-family:'JetBrains Mono', monospace;
-    font-weight:700;
-    font-size:11px;
-    letter-spacing:.02em;
-    max-width:100%;
-    width:100%;
-    border-radius:2px;
-  }
-  .file-chip span{
-    overflow:hidden;
-    text-overflow:ellipsis;
-    white-space:nowrap;
-    flex:1;
-    text-align:left;
-  }
-  .file-chip button{
-    border:none;
-    background:transparent;
-    color:#0B0B0C;
-    cursor:pointer;
-    font-weight:800;
-    font-size:15px;
-    line-height:1;
-    padding:0 4px;
-    flex-shrink:0;
-  }
-
-  /* PANELS */
-  .panel{
-    background:var(--panel);
-    border:1.5px solid var(--line);
-    padding:18px 14px;
-    margin-top:14px;
-    width:100%;
-  }
-  .panel-head{display:flex; align-items:baseline; gap:10px; margin-bottom:14px;}
-  .panel-head .no{font-size:11px; color:var(--volt); letter-spacing:.1em; font-weight:700;}
-  .panel-head h2{
-    font-family:'Space Grotesk',sans-serif;
-    font-weight:700; font-size:14px; letter-spacing:.02em;
-    text-transform:uppercase;
-  }
-  .detected-tag{
-    font-size:10px; color:var(--volt); letter-spacing:.08em; text-transform:uppercase; margin-left:auto;
-  }
-
-  .grid-options{
-    display:grid;
-    grid-template-columns:repeat(auto-fit, minmax(64px,1fr));
-    gap:8px;
-    width:100%;
-  }
-  .opt{
-    border:1.5px solid var(--line);
-    background:transparent;
-    border-radius:2px;
-    padding:10px 4px 8px;
-    cursor:pointer;
-    text-align:center;
-    transition:.12s;
-  }
-  .opt:hover{border-color:var(--line-strong);}
-  .opt.active{border-color:var(--volt); background:rgba(214,255,63,0.08);}
-  .opt .mini-grid{
-    display:grid; gap:2px; margin:0 auto 6px; width:32px; height:42px;
-  }
-  .opt .mini-grid div{background:var(--mute); border-radius:1px;}
-  .opt.active .mini-grid div{background:var(--volt);}
-  .opt .label{font-family:'JetBrains Mono',monospace; font-size:10px; font-weight:600; color:var(--ink);}
-
-  .row{display:flex; gap:10px; flex-wrap:wrap; width:100%;}
-  .row > div{flex:1; min-width:130px;}
-  
-  .toggle-group{
-    display:flex;
-    border:1.5px solid var(--line);
-    border-radius:2px;
-    overflow:hidden;
-    width:100%;
-  }
-  .toggle-group button{
-    flex:1; border:none; background:transparent; padding:9px 8px;
-    font-family:'JetBrains Mono', monospace; font-weight:600; font-size:10.5px;
-    letter-spacing:.02em; cursor:pointer; color:var(--mute);
-    border-right:1.5px solid var(--line);
-    transition:background .12s, color .12s;
-    text-align:center;
-  }
-  .toggle-group button:last-child{border-right:none;}
-  .toggle-group button.active{background:var(--volt); color:#0B0B0C;}
-
-  label.field-label{display:block; font-size:10px; font-weight:600; margin-bottom:6px; color:var(--mute); letter-spacing:.08em; text-transform:uppercase;}
-
-  .margin-slider-wrap{display:none; margin-top:12px;}
-  .margin-slider-wrap.show{display:block;}
-  .margin-slider-row{display:flex; align-items:center; gap:10px;}
-  input[type=range]{flex:1; accent-color:var(--volt); cursor:pointer;}
-  .margin-value{
-    font-family:'JetBrains Mono', monospace; font-weight:700; font-size:11px;
-    color:var(--ink); min-width:48px; text-align:right;
-    border:1.5px solid var(--line); border-radius:2px; padding:4px 6px; background:transparent;
-  }
-
-  .stack-wrap{display:flex; align-items:center; gap:20px; flex-wrap:wrap;}
-  .stack{position:relative; width:70px; height:85px; flex-shrink:0;}
-  .sheet{
-    position:absolute; left:50%; top:0; width:50px; height:70px;
-    background:var(--bg); border:1.5px solid var(--mute);
-    transform-origin:bottom center;
-  }
-  .stats{font-family:'JetBrains Mono', monospace; font-size:12px; line-height:1.7; color:var(--mute);}
-  .stats .big{font-family:'Space Grotesk',sans-serif; font-size:24px; font-weight:700; color:var(--ink);}
-  .stats .arrow-sep{color:var(--volt); margin:0 6px;}
-
-  .cta{
-    width:100%;
-    background:var(--volt);
-    color:#0B0B0C;
-    border:none;
-    font-family:'Space Grotesk', sans-serif;
-    font-weight:700;
-    text-transform:uppercase;
-    font-size:13px;
-    letter-spacing:.06em;
-    padding:15px 12px;
-    border-radius:2px;
-    cursor:pointer;
-    margin-top:18px;
-    transition:.12s;
-  }
-  .cta:disabled{background:#3a3a35; color:var(--mute); cursor:not-allowed;}
-  .cta:not(:disabled):hover{background:#c2ef2c;}
-
-  .progress-wrap{margin-top:14px; display:none;}
-  .progress-wrap.show{display:block;}
-  .bar-track{height:6px; background:var(--bg); overflow:hidden; border:1px solid var(--line);}
-  .bar-fill{height:100%; width:0%; background:var(--volt); transition:width .2s;}
-  .progress-label{font-family:'JetBrains Mono',monospace; font-size:10px; margin-top:6px; color:var(--mute); letter-spacing:.04em;}
-
-  .result{
-    display:none;
-    margin-top:16px;
-    border:1.5px solid var(--volt);
-    padding:12px 14px;
-    align-items:center;
-    justify-content:space-between;
-    gap:10px;
-    flex-wrap:wrap;
-  }
-  .result.show{display:flex;}
-  .result .rlabel{font-weight:600; font-size:11px; color:var(--ink); word-break:break-word;}
-  .result a{
-    background:var(--volt); color:#0B0B0C; text-decoration:none;
-    padding:8px 14px; font-family:'Space Grotesk',sans-serif;
-    font-weight:700; font-size:11px; letter-spacing:.04em; text-transform:uppercase;
-    border-radius:2px;
-  }
-
-  footer{
-    margin-top:28px;
-    font-size:9.5px;
-    color:var(--mute);
-    letter-spacing:.04em;
-    text-align:center;
-    line-height:1.6;
-    padding:0 8px;
-  }
-</style>
-</head>
-<body>
-<div class="wrap">
-
-  <div class="masthead">
-    <div class="brand-group">
-      <span class="brand">Suman<span class="volt-dot">Volt</span></span>
-      <span class="tag">Aspirant Edition</span>
-    </div>
-    <button id="installAppBtn" class="install-btn">📲 Install App</button>
-  </div>
-
-  <div class="aspirant-banner">
-    ⚡ <strong>Built for JEE, NEET, GATE & ESE Aspirants:</strong> Squeeze 100s of pages of lecture slides into compact sheets with intelligent Auto-Orientation. Invert dark slides to save printer ink. <strong>100% Client-Side & Private</strong>.
-  </div>
-
-  <div class="dropzone" id="dropzone">
-    <input type="file" id="fileInput" accept="application/pdf">
-    <div class="dz-label">Drop PDF</div>
-    <div class="dz-note">Lecture Slides / Notes · Zero Uploads</div>
-    <div id="fileChipWrap"></div>
-  </div>
-
-  <div class="panel" id="layoutPanel" style="display:none;">
-    <div class="panel-head">
-      <span class="no">01</span>
-      <h2>Pages / Sheet (N-Up)</h2>
-      <span class="detected-tag" id="detectedTag"></span>
-    </div>
-    <div class="grid-options" id="layoutOptions"></div>
-  </div>
-
-  <div class="panel" id="setupPanel" style="display:none;">
-    <div class="panel-head"><span class="no">02</span><h2>Sheet & Color Tuning</h2></div>
-    
-    <div class="row" style="margin-bottom:14px;">
-      <div>
-        <label class="field-label">Paper Size</label>
-        <div class="toggle-group" id="paperSizeToggle">
-          <button data-v="A4" class="active">A4</button>
-          <button data-v="Letter">Letter</button>
-        </div>
-      </div>
-      <div>
-        <label class="field-label">Orientation</label>
-        <div class="toggle-group" id="orientationToggle">
-          <button data-v="auto" class="active">Auto (Smart)</button>
-          <button data-v="portrait">Portrait</button>
-          <button data-v="landscape">Landscape</button>
-        </div>
-      </div>
-    </div>
-
-    <div style="margin-bottom:14px;">
-      <label class="field-label">Dark Theme Inversion (Ink Saver)</label>
-      <div class="toggle-group" id="invertToggle">
-        <button data-v="off" class="active">Normal (Original)</button>
-        <button data-v="on">Invert (Black → White)</button>
-      </div>
-      <p style="font-size:9.5px; color:var(--mute); margin-top:5px; line-height:1.4;">
-        💡 Flips dark coaching slides to white paper to cut down black toner usage.
-      </p>
-    </div>
-
-    <label class="field-label">Margins</label>
-    <div class="toggle-group" id="marginToggle">
-      <button data-v="none" class="active">None</button>
-      <button data-v="on">Add Margin</button>
-    </div>
-    <div class="margin-slider-wrap" id="marginSliderWrap">
-      <div class="margin-slider-row">
-        <input type="range" id="marginRange" min="1" max="20" step="1" value="5">
-        <span class="margin-value" id="marginValue">5mm</span>
-      </div>
-    </div>
-  </div>
-
-  <div class="panel" id="statsPanel" style="display:none;">
-    <div class="panel-head"><span class="no">03</span><h2>Print Savings</h2></div>
-    <div class="stack-wrap">
-      <div class="stack" id="stackVisual"></div>
-      <div class="stats">
-        <span class="big" id="origPages">0</span> pages
-        <span class="arrow-sep">→</span>
-        <span class="big" id="newSheets">0</span> sheets
-        <br>
-        <span id="savedPct">0% less paper</span>
-        <div style="font-size:10px; color:var(--volt); margin-top:3px;" id="sheetLayoutSummary"></div>
-      </div>
-    </div>
-
-    <button class="cta" id="convertBtn" disabled>Generate Economical PDF →</button>
-
-    <div class="progress-wrap" id="progressWrap">
-      <div class="bar-track"><div class="bar-fill" id="barFill"></div></div>
-      <div class="progress-label" id="progressLabel">Preparing layout…</div>
-    </div>
-
-    <div class="result" id="result">
-      <div class="rlabel" id="resultLabel">Print-Ready PDF</div>
-      <a id="downloadLink" download="sumanvolt-print-ready.pdf">Download</a>
-    </div>
-  </div>
-
-  <footer>
-    Crafted for Aspirants by SumanVolt · 100% In-Browser Vector & Ink-Saving Engine · Never Uploaded
-  </footer>
-</div>
-
-<script>
-pdfjsLib.GlobalWorkerOptions.workerSrc = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
-
-if ('serviceWorker' in navigator) {
-  window.addEventListener('load', () => navigator.serviceWorker.register('./sw.js'));
-}
-
-let deferredPrompt;
-const installAppBtn = document.getElementById('installAppBtn');
-window.addEventListener('beforeinstallprompt', (e) => {
-  e.preventDefault();
-  deferredPrompt = e;
-  installAppBtn.style.display = 'inline-block';
-});
-installAppBtn.addEventListener('click', async () => {
-  if (!deferredPrompt) return;
-  deferredPrompt.prompt();
-  const { outcome } = await deferredPrompt.userChoice;
-  if (outcome === 'accepted') installAppBtn.style.display = 'none';
-  deferredPrompt = null;
-});
-
-// INTELLIGENT ORIENTATION ENGINE:
-// Selects optimal grid (cols/rows) and auto sheet orientation based on input PDF aspect ratio.
-const GRID_CONFIGS = {
-  portrait: { // When input PDF pages are taller than wide (Portrait)
-    2:  { cols: 2, rows: 1, autoSheet: 'landscape', label: '2-up' },
-    4:  { cols: 2, rows: 2, autoSheet: 'portrait',  label: '4-up' },
-    6:  { cols: 2, rows: 3, autoSheet: 'portrait',  label: '6-up' },
-    8:  { cols: 4, rows: 2, autoSheet: 'landscape', label: '8-up' },
-    9:  { cols: 3, rows: 3, autoSheet: 'portrait',  label: '9-up' },
-    16: { cols: 4, rows: 4, autoSheet: 'portrait',  label: '16-up' }
-  },
-  landscape: { // When input PDF pages are wider than tall (Landscape Slides e.g., 16:9 notes)
-    2:  { cols: 1, rows: 2, autoSheet: 'portrait',  label: '2-up' },
-    4:  { cols: 2, rows: 2, autoSheet: 'landscape', label: '4-up' },
-    6:  { cols: 3, rows: 2, autoSheet: 'landscape', label: '6-up' },
-    8:  { cols: 2, rows: 4, autoSheet: 'portrait',  label: '8-up' }, // 8-up landscape slides on a single portrait page!
-    9:  { cols: 3, rows: 3, autoSheet: 'landscape', label: '9-up' },
-    16: { cols: 4, rows: 4, autoSheet: 'landscape', label: '16-up' }
-  }
-};
-
-let state = {
-  file: null,
-  rawBuffer: null,
-  srcDoc: null,
-  pdfJsDoc: null,
-  numPages: 0,
-  isInputLandscape: false,
-  perSheet: 4,
-  paperSize: "A4",
-  orientationSetting: "auto", // 'auto', 'portrait', 'landscape'
-  invertColors: "off",
-  marginMode: "none",
-  marginMm: 5,
-};
-
-const PAPER_PT = {
-  A4: [595.28, 841.89],
-  Letter: [612, 792],
-};
-
-function renderLayoutOptions() {
-  const layoutOptionsEl = document.getElementById('layoutOptions');
-  layoutOptionsEl.innerHTML = '';
-  const currentMode = state.isInputLandscape ? 'landscape' : 'portrait';
-  const configs = GRID_CONFIGS[currentMode];
-
-  Object.entries(configs).forEach(([n, cfg]) => {
-    const opt = document.createElement('div');
-    opt.className = 'opt' + (Number(n) === state.perSheet ? ' active' : '');
-    opt.dataset.n = n;
-
-    const miniGrid = document.createElement('div');
-    miniGrid.className = 'mini-grid';
-    miniGrid.style.gridTemplateColumns = `repeat(${cfg.cols}, 1fr)`;
-    miniGrid.style.gridTemplateRows = `repeat(${cfg.rows}, 1fr)`;
-    for (let i = 0; i < Number(n); i++) {
-      const c = document.createElement('div');
-      miniGrid.appendChild(c);
-    }
-    opt.appendChild(miniGrid);
-
-    const label = document.createElement('div');
-    label.className = 'label';
-    label.textContent = cfg.label;
-    opt.appendChild(label);
-
-    opt.addEventListener('click', () => {
-      document.querySelectorAll('.opt').forEach(o => o.classList.remove('active'));
-      opt.classList.add('active');
-      state.perSheet = Number(n);
-      updateStats();
-    });
-    layoutOptionsEl.appendChild(opt);
-  });
-}
-
-function wireToggle(id, key, callback){
-  const group = document.getElementById(id);
-  group.querySelectorAll('button').forEach(btn=>{
-    btn.addEventListener('click', ()=>{
-      group.querySelectorAll('button').forEach(b=>b.classList.remove('active'));
-      btn.classList.add('active');
-      state[key] = btn.dataset.v;
-      if (callback) callback();
-    });
-  });
-}
-wireToggle('paperSizeToggle','paperSize', updateStats);
-wireToggle('orientationToggle','orientationSetting', updateStats);
-wireToggle('invertToggle','invertColors');
-
-const marginToggle = document.getElementById('marginToggle');
-const marginSliderWrap = document.getElementById('marginSliderWrap');
-const marginRange = document.getElementById('marginRange');
-const marginValue = document.getElementById('marginValue');
-
-marginToggle.querySelectorAll('button').forEach(btn=>{
-  btn.addEventListener('click', ()=>{
-    marginToggle.querySelectorAll('button').forEach(b=>b.classList.remove('active'));
-    btn.classList.add('active');
-    state.marginMode = btn.dataset.v;
-    marginSliderWrap.classList.toggle('show', state.marginMode === 'on');
-  });
-});
-
-marginRange.addEventListener('input', e=>{
-  state.marginMm = Number(e.target.value);
-  marginValue.textContent = `${state.marginMm}mm`;
-});
-
-const dropzone = document.getElementById('dropzone');
-const fileInput = document.getElementById('fileInput');
-
-dropzone.addEventListener('click', ()=> fileInput.click());
-['dragover','dragenter'].forEach(ev=>dropzone.addEventListener(ev, e=>{e.preventDefault(); dropzone.classList.add('drag');}));
-['dragleave','drop'].forEach(ev=>dropzone.addEventListener(ev, e=>{e.preventDefault(); dropzone.classList.remove('drag');}));
-dropzone.addEventListener('drop', e=>{
-  const f = e.dataTransfer.files[0];
-  if (f) handleFile(f);
-});
-fileInput.addEventListener('change', e=>{
-  const f = e.target.files[0];
-  if (f) handleFile(f);
-});
-
-async function handleFile(file){
-  if (file.type !== 'application/pdf' && !file.name.endsWith('.pdf')){
-    alert('Please choose a valid PDF file.');
-    return;
-  }
-  state.file = file;
-  const chipWrap = document.getElementById('fileChipWrap');
-  chipWrap.innerHTML = '';
-  const chip = document.createElement('div');
-  chip.className = 'file-chip';
-  chip.innerHTML = `<span>${file.name}</span>`;
-  const removeBtn = document.createElement('button');
-  removeBtn.textContent = '✕';
-  removeBtn.addEventListener('click', (e)=>{ e.stopPropagation(); resetFile(); });
-  chip.appendChild(removeBtn);
-  chipWrap.appendChild(chip);
-
-  state.rawBuffer = await file.arrayBuffer();
-  state.srcDoc = await PDFLib.PDFDocument.load(state.rawBuffer.slice(0));
-  state.pdfJsDoc = await pdfjsLib.getDocument({ data: state.rawBuffer.slice(0) }).promise;
-  state.numPages = state.srcDoc.getPageCount();
-
-  // Detect aspect ratio of the first page
-  const firstPage = state.srcDoc.getPage(0);
-  const { width, height } = firstPage.getSize();
-  state.isInputLandscape = width > height;
-
-  const detectedTag = document.getElementById('detectedTag');
-  detectedTag.textContent = state.isInputLandscape ? '⚡ Detected: Landscape Slides' : '⚡ Detected: Portrait Notes';
 
   renderLayoutOptions();
 
@@ -1159,7 +714,10 @@ function updateStats(){
   document.getElementById('savedPct').textContent = `${savedPct}% less paper`;
 
   const { cfg, finalSheetOrientation } = getEffectiveLayout();
-  document.getElementById('sheetLayoutSummary').textContent = `Target: ${finalSheetOrientation.toUpperCase()} sheet (${cfg.cols} × ${cfg.rows} grid)`;
+  const summaryEl = document.getElementById('sheetLayoutSummary');
+  if (summaryEl) {
+    summaryEl.textContent = `Target: ${finalSheetOrientation.toUpperCase()} (${cfg.cols}×${cfg.rows} grid)`;
+  }
 
   const stack = document.getElementById('stackVisual');
   stack.innerHTML = '';
@@ -1168,13 +726,13 @@ function updateStats(){
     const s = document.createElement('div');
     s.className = 'sheet';
     if (finalSheetOrientation === 'landscape') {
-      s.style.width = '70px';
-      s.style.height = '50px';
-      s.style.left = `calc(50% - 35px + ${i*2}px)`;
+      s.style.width = '60px';
+      s.style.height = '42px';
+      s.style.left = `calc(50% - 30px + ${i*2}px)`;
     } else {
-      s.style.width = '50px';
-      s.style.height = '70px';
-      s.style.left = `calc(50% - 25px + ${i*2}px)`;
+      s.style.width = '42px';
+      s.style.height = '60px';
+      s.style.left = `calc(50% - 21px + ${i*2}px)`;
     }
     s.style.bottom = (i * 4) + 'px';
     s.style.zIndex = i;
