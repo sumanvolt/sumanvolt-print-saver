@@ -137,7 +137,7 @@
     word-break:break-word;
   }
 
-  /* FILE CHIP CONTAINER (Mobile Fix) */
+  /* FILE CHIP */
   #fileChipWrap{
     width:100%;
     display:flex;
@@ -193,6 +193,9 @@
     font-family:'Space Grotesk',sans-serif;
     font-weight:700; font-size:14px; letter-spacing:.02em;
     text-transform:uppercase;
+  }
+  .detected-tag{
+    font-size:10px; color:var(--volt); letter-spacing:.08em; text-transform:uppercase; margin-left:auto;
   }
 
   .grid-options{
@@ -330,7 +333,7 @@
   </div>
 
   <div class="aspirant-banner">
-    ⚡ <strong>Built for JEE, NEET, GATE & ESE Aspirants:</strong> Squeeze 100s of pages of lecture slides into compact sheets. Invert dark slides to save printer ink. <strong>100% Client-Side & Private</strong>.
+    ⚡ <strong>Built for JEE, NEET, GATE & ESE Aspirants:</strong> Squeeze 100s of pages of lecture slides into compact sheets with intelligent Auto-Orientation. Invert dark slides to save printer ink. <strong>100% Client-Side & Private</strong>.
   </div>
 
   <div class="dropzone" id="dropzone">
@@ -341,7 +344,11 @@
   </div>
 
   <div class="panel" id="layoutPanel" style="display:none;">
-    <div class="panel-head"><span class="no">01</span><h2>Pages / Sheet (N-Up)</h2></div>
+    <div class="panel-head">
+      <span class="no">01</span>
+      <h2>Pages / Sheet (N-Up)</h2>
+      <span class="detected-tag" id="detectedTag"></span>
+    </div>
     <div class="grid-options" id="layoutOptions"></div>
   </div>
 
@@ -359,7 +366,8 @@
       <div>
         <label class="field-label">Orientation</label>
         <div class="toggle-group" id="orientationToggle">
-          <button data-v="portrait" class="active">Portrait</button>
+          <button data-v="auto" class="active">Auto (Smart)</button>
+          <button data-v="portrait">Portrait</button>
           <button data-v="landscape">Landscape</button>
         </div>
       </div>
@@ -399,6 +407,7 @@
         <span class="big" id="newSheets">0</span> sheets
         <br>
         <span id="savedPct">0% less paper</span>
+        <div style="font-size:10px; color:var(--volt); margin-top:3px;" id="sheetLayoutSummary"></div>
       </div>
     </div>
 
@@ -442,12 +451,25 @@ installAppBtn.addEventListener('click', async () => {
   deferredPrompt = null;
 });
 
-const LAYOUTS = {
-  2:  {cols:2, rows:1, label:"2-up"},
-  4:  {cols:2, rows:2, label:"4-up"},
-  6:  {cols:2, rows:3, label:"6-up"},
-  9:  {cols:3, rows:3, label:"9-up"},
-  16: {cols:4, rows:4, label:"16-up"},
+// INTELLIGENT ORIENTATION ENGINE:
+// Selects optimal grid (cols/rows) and auto sheet orientation based on input PDF aspect ratio.
+const GRID_CONFIGS = {
+  portrait: { // When input PDF pages are taller than wide (Portrait)
+    2:  { cols: 2, rows: 1, autoSheet: 'landscape', label: '2-up' },
+    4:  { cols: 2, rows: 2, autoSheet: 'portrait',  label: '4-up' },
+    6:  { cols: 2, rows: 3, autoSheet: 'portrait',  label: '6-up' },
+    8:  { cols: 4, rows: 2, autoSheet: 'landscape', label: '8-up' },
+    9:  { cols: 3, rows: 3, autoSheet: 'portrait',  label: '9-up' },
+    16: { cols: 4, rows: 4, autoSheet: 'portrait',  label: '16-up' }
+  },
+  landscape: { // When input PDF pages are wider than tall (Landscape Slides e.g., 16:9 notes)
+    2:  { cols: 1, rows: 2, autoSheet: 'portrait',  label: '2-up' },
+    4:  { cols: 2, rows: 2, autoSheet: 'landscape', label: '4-up' },
+    6:  { cols: 3, rows: 2, autoSheet: 'landscape', label: '6-up' },
+    8:  { cols: 2, rows: 4, autoSheet: 'portrait',  label: '8-up' }, // 8-up landscape slides on a single portrait page!
+    9:  { cols: 3, rows: 3, autoSheet: 'landscape', label: '9-up' },
+    16: { cols: 4, rows: 4, autoSheet: 'landscape', label: '16-up' }
+  }
 };
 
 let state = {
@@ -456,9 +478,10 @@ let state = {
   srcDoc: null,
   pdfJsDoc: null,
   numPages: 0,
+  isInputLandscape: false,
   perSheet: 4,
   paperSize: "A4",
-  orientation: "portrait",
+  orientationSetting: "auto", // 'auto', 'portrait', 'landscape'
   invertColors: "off",
   marginMode: "none",
   marginMm: 5,
@@ -469,42 +492,55 @@ const PAPER_PT = {
   Letter: [612, 792],
 };
 
-const layoutOptionsEl = document.getElementById('layoutOptions');
-Object.entries(LAYOUTS).forEach(([n, cfg]) => {
-  const opt = document.createElement('div');
-  opt.className = 'opt' + (Number(n) === state.perSheet ? ' active' : '');
-  opt.dataset.n = n;
-  const miniGrid = document.createElement('div');
-  miniGrid.className = 'mini-grid';
-  miniGrid.style.gridTemplateColumns = `repeat(${cfg.cols}, 1fr)`;
-  miniGrid.style.gridTemplateRows = `repeat(${cfg.rows}, 1fr)`;
-  for (let i=0;i<n;i++){ const c=document.createElement('div'); miniGrid.appendChild(c); }
-  opt.appendChild(miniGrid);
-  const label = document.createElement('div');
-  label.className = 'label';
-  label.textContent = cfg.label;
-  opt.appendChild(label);
-  opt.addEventListener('click', () => {
-    document.querySelectorAll('.opt').forEach(o=>o.classList.remove('active'));
-    opt.classList.add('active');
-    state.perSheet = Number(n);
-    updateStats();
-  });
-  layoutOptionsEl.appendChild(opt);
-});
+function renderLayoutOptions() {
+  const layoutOptionsEl = document.getElementById('layoutOptions');
+  layoutOptionsEl.innerHTML = '';
+  const currentMode = state.isInputLandscape ? 'landscape' : 'portrait';
+  const configs = GRID_CONFIGS[currentMode];
 
-function wireToggle(id, key){
+  Object.entries(configs).forEach(([n, cfg]) => {
+    const opt = document.createElement('div');
+    opt.className = 'opt' + (Number(n) === state.perSheet ? ' active' : '');
+    opt.dataset.n = n;
+
+    const miniGrid = document.createElement('div');
+    miniGrid.className = 'mini-grid';
+    miniGrid.style.gridTemplateColumns = `repeat(${cfg.cols}, 1fr)`;
+    miniGrid.style.gridTemplateRows = `repeat(${cfg.rows}, 1fr)`;
+    for (let i = 0; i < Number(n); i++) {
+      const c = document.createElement('div');
+      miniGrid.appendChild(c);
+    }
+    opt.appendChild(miniGrid);
+
+    const label = document.createElement('div');
+    label.className = 'label';
+    label.textContent = cfg.label;
+    opt.appendChild(label);
+
+    opt.addEventListener('click', () => {
+      document.querySelectorAll('.opt').forEach(o => o.classList.remove('active'));
+      opt.classList.add('active');
+      state.perSheet = Number(n);
+      updateStats();
+    });
+    layoutOptionsEl.appendChild(opt);
+  });
+}
+
+function wireToggle(id, key, callback){
   const group = document.getElementById(id);
   group.querySelectorAll('button').forEach(btn=>{
     btn.addEventListener('click', ()=>{
       group.querySelectorAll('button').forEach(b=>b.classList.remove('active'));
       btn.classList.add('active');
       state[key] = btn.dataset.v;
+      if (callback) callback();
     });
   });
 }
-wireToggle('paperSizeToggle','paperSize');
-wireToggle('orientationToggle','orientation');
+wireToggle('paperSizeToggle','paperSize', updateStats);
+wireToggle('orientationToggle','orientationSetting', updateStats);
 wireToggle('invertToggle','invertColors');
 
 const marginToggle = document.getElementById('marginToggle');
@@ -563,6 +599,16 @@ async function handleFile(file){
   state.pdfJsDoc = await pdfjsLib.getDocument({ data: state.rawBuffer.slice(0) }).promise;
   state.numPages = state.srcDoc.getPageCount();
 
+  // Detect aspect ratio of the first page
+  const firstPage = state.srcDoc.getPage(0);
+  const { width, height } = firstPage.getSize();
+  state.isInputLandscape = width > height;
+
+  const detectedTag = document.getElementById('detectedTag');
+  detectedTag.textContent = state.isInputLandscape ? '⚡ Detected: Landscape Slides' : '⚡ Detected: Portrait Notes';
+
+  renderLayoutOptions();
+
   document.getElementById('layoutPanel').style.display = 'block';
   document.getElementById('setupPanel').style.display = 'block';
   document.getElementById('statsPanel').style.display = 'block';
@@ -580,6 +626,17 @@ function resetFile(){
   fileInput.value = '';
 }
 
+function getEffectiveLayout() {
+  const currentMode = state.isInputLandscape ? 'landscape' : 'portrait';
+  const cfg = GRID_CONFIGS[currentMode][state.perSheet] || GRID_CONFIGS[currentMode][4];
+  
+  let finalSheetOrientation = cfg.autoSheet;
+  if (state.orientationSetting !== 'auto') {
+    finalSheetOrientation = state.orientationSetting;
+  }
+  return { cfg, finalSheetOrientation };
+}
+
 function updateStats(){
   if (!state.numPages) return;
   const sheets = Math.ceil(state.numPages / state.perSheet);
@@ -588,14 +645,25 @@ function updateStats(){
   document.getElementById('newSheets').textContent = sheets;
   document.getElementById('savedPct').textContent = `${savedPct}% less paper`;
 
+  const { cfg, finalSheetOrientation } = getEffectiveLayout();
+  document.getElementById('sheetLayoutSummary').textContent = `Target: ${finalSheetOrientation.toUpperCase()} sheet (${cfg.cols} × ${cfg.rows} grid)`;
+
   const stack = document.getElementById('stackVisual');
   stack.innerHTML = '';
   const shown = Math.max(2, Math.min(6, Math.round((sheets / state.numPages) * 8) || 3));
-  for (let i=0;i<shown;i++){
+  for (let i = 0; i < shown; i++){
     const s = document.createElement('div');
-    s.className='sheet';
-    s.style.bottom = (i*4)+'px';
-    s.style.left = `calc(50% - 25px + ${i*2}px)`;
+    s.className = 'sheet';
+    if (finalSheetOrientation === 'landscape') {
+      s.style.width = '70px';
+      s.style.height = '50px';
+      s.style.left = `calc(50% - 35px + ${i*2}px)`;
+    } else {
+      s.style.width = '50px';
+      s.style.height = '70px';
+      s.style.left = `calc(50% - 25px + ${i*2}px)`;
+    }
+    s.style.bottom = (i * 4) + 'px';
     s.style.zIndex = i;
     stack.appendChild(s);
   }
@@ -613,10 +681,15 @@ async function convert(){
   document.getElementById('result').classList.remove('show');
 
   try{
-    const cfg = LAYOUTS[state.perSheet];
+    const { cfg, finalSheetOrientation } = getEffectiveLayout();
     const cols = cfg.cols, rows = cfg.rows;
+
     let [pw, ph] = PAPER_PT[state.paperSize];
-    if (state.orientation === 'landscape'){ [pw, ph] = [ph, pw]; }
+    if (finalSheetOrientation === 'landscape'){
+      [pw, ph] = [Math.max(pw, ph), Math.min(pw, ph)];
+    } else {
+      [pw, ph] = [Math.min(pw, ph), Math.max(pw, ph)];
+    }
 
     const outDoc = await PDFLib.PDFDocument.create();
     const totalSheets = Math.ceil(state.numPages / state.perSheet);
@@ -658,7 +731,7 @@ async function convert(){
 
         const pct = Math.round(((sheetIdx + 1) / totalSheets) * 100);
         barFill.style.width = pct + '%';
-        progressLabel.textContent = `Assembling sheet ${sheetIdx + 1} of ${totalSheets}…`;
+        progressLabel.textContent = `Assembling vector sheet ${sheetIdx + 1} of ${totalSheets}…`;
         await new Promise(r => setTimeout(r, 0));
       }
     } else {
