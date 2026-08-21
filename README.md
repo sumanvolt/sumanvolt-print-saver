@@ -23,7 +23,7 @@
 ## 🚀 Live Demo
 
 Access the live web app directly on GitHub Pages:  
-👉 **[https://<your-username>.github.io/<your-repo-name>/](https://<your-username>.github.io/<your-repo-name>/)**
+👉 **https://sumanvolt.github.io/sumanvolt-print-saver/**
 
 ---
 
