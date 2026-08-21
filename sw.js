@@ -6,6 +6,8 @@ const ASSETS_TO_CACHE = [
   './index.html',
   './manifest.json',
   './favicon.svg',
+  './icon-192.png',
+  './icon-512.png',
   'https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js',
   'https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap'
 ];
