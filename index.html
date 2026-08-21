@@ -2,13 +2,12 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SumanVolt — Print Saver for JEE / NEET / GATE Aspirants</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>SumanVolt — Print Saver</title>
 <link rel="manifest" href="./manifest.json">
 <meta name="theme-color" content="#D6FF3F">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
-<!-- Client-side PDF Engines (Vector + Canvas Inversion) -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js"></script>
 <style>
@@ -21,54 +20,99 @@
     --line-strong: rgba(244,243,238,0.28);
     --volt:#D6FF3F;
   }
-  *{box-sizing:border-box;}
-  html,body{margin:0;padding:0;}
-  body{
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html,body{
+    width:100%;
+    overflow-x:hidden;
     background:var(--bg);
     color:var(--ink);
     font-family:'JetBrains Mono', monospace;
     min-height:100vh;
     -webkit-font-smoothing:antialiased;
   }
-  .wrap{max-width:860px;margin:0 auto;padding:36px 24px 100px;}
+  .wrap{
+    max-width:860px;
+    width:100%;
+    margin:0 auto;
+    padding:20px 16px 80px;
+  }
 
   /* MASTHEAD */
   .masthead{
-    display:flex; align-items:center; justify-content:space-between;
-    padding-bottom:14px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:12px;
+    flex-wrap:wrap;
+    padding-bottom:16px;
   }
-  .brand{font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:18px; letter-spacing:.02em; text-transform:uppercase;}
+  .brand-group{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    flex-wrap:wrap;
+  }
+  .brand{
+    font-family:'Space Grotesk',sans-serif;
+    font-weight:700;
+    font-size:17px;
+    letter-spacing:.02em;
+    text-transform:uppercase;
+    white-space:nowrap;
+  }
   .brand .volt-dot{color:var(--volt);}
-  .tag{font-size:10px; color:var(--volt); letter-spacing:.14em; text-transform:uppercase; background:rgba(214,255,63,0.1); padding:4px 8px; border-radius:2px; border:1px solid rgba(214,255,63,0.3);}
+  .tag{
+    font-size:9.5px;
+    color:var(--volt);
+    letter-spacing:.1em;
+    text-transform:uppercase;
+    background:rgba(214,255,63,0.1);
+    padding:3px 7px;
+    border-radius:2px;
+    border:1px solid rgba(214,255,63,0.3);
+    white-space:nowrap;
+  }
 
   .install-btn{
-    background:var(--volt); color:#0B0B0C; border:none;
-    padding:8px 14px; font-family:'Space Grotesk', sans-serif;
-    font-weight:700; font-size:11px; letter-spacing:.05em;
-    text-transform:uppercase; border-radius:2px; cursor:pointer;
+    background:var(--volt);
+    color:#0B0B0C;
+    border:none;
+    padding:7px 12px;
+    font-family:'Space Grotesk', sans-serif;
+    font-weight:700;
+    font-size:11px;
+    letter-spacing:.04em;
+    text-transform:uppercase;
+    border-radius:2px;
+    cursor:pointer;
     display:none;
+    white-space:nowrap;
   }
 
   .aspirant-banner{
     background:rgba(214,255,63,0.04);
     border:1px dashed var(--line-strong);
-    padding:12px 16px;
-    margin-bottom:24px;
-    font-size:11.5px;
-    line-height:1.6;
+    padding:12px 14px;
+    margin-bottom:18px;
+    font-size:11px;
+    line-height:1.55;
     color:var(--ink);
+    border-radius:2px;
+    word-break:break-word;
   }
   .aspirant-banner strong{color:var(--volt);}
 
-  /* HERO / DROPZONE */
+  /* DROPZONE */
   .dropzone{
     border:1.5px solid var(--line-strong);
     background:var(--panel);
-    padding:50px 24px;
+    padding:36px 16px;
     text-align:center;
     cursor:pointer;
-    transition:padding .25s ease, background .2s ease, border-color .2s ease;
     position:relative;
+    width:100%;
+    overflow:hidden;
+    transition:background .2s ease, border-color .2s ease;
   }
   .dropzone:hover, .dropzone.drag{
     border-color:var(--volt);
@@ -79,54 +123,89 @@
     font-family:'Space Grotesk', sans-serif;
     font-weight:900;
     text-transform:uppercase;
-    font-size:clamp(36px,8vw,64px);
-    line-height:.96;
+    font-size:clamp(32px, 7vw, 56px);
+    line-height:1;
     letter-spacing:-.01em;
     margin:0;
   }
   .dz-note{
-    font-size:11px; color:var(--mute); letter-spacing:.12em; text-transform:uppercase;
-    margin-top:14px;
+    font-size:10px;
+    color:var(--mute);
+    letter-spacing:.1em;
+    text-transform:uppercase;
+    margin-top:12px;
+    word-break:break-word;
+  }
+
+  /* FILE CHIP CONTAINER (Mobile Fix) */
+  #fileChipWrap{
+    width:100%;
+    display:flex;
+    justify-content:center;
+    margin-top:16px;
   }
   .file-chip{
-    display:inline-flex;align-items:center;gap:12px;
-    background:var(--volt);color:#0B0B0C;
-    padding:9px 16px;margin-top:20px;
-    font-family:'JetBrains Mono', monospace; font-weight:700; font-size:12px;
-    letter-spacing:.04em;
+    display:inline-flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:10px;
+    background:var(--volt);
+    color:#0B0B0C;
+    padding:8px 12px;
+    font-family:'JetBrains Mono', monospace;
+    font-weight:700;
+    font-size:11px;
+    letter-spacing:.02em;
+    max-width:100%;
+    width:100%;
+    border-radius:2px;
+  }
+  .file-chip span{
+    overflow:hidden;
+    text-overflow:ellipsis;
+    white-space:nowrap;
+    flex:1;
+    text-align:left;
   }
   .file-chip button{
-    border:none;background:transparent;color:#0B0B0C;
-    cursor:pointer;font-weight:800;font-size:14px;
-    opacity:.65;
+    border:none;
+    background:transparent;
+    color:#0B0B0C;
+    cursor:pointer;
+    font-weight:800;
+    font-size:15px;
+    line-height:1;
+    padding:0 4px;
+    flex-shrink:0;
   }
-  .file-chip button:hover{opacity:1;}
 
-  /* SECTIONS */
+  /* PANELS */
   .panel{
     background:var(--panel);
     border:1.5px solid var(--line);
-    padding:24px 22px;
-    margin-top:16px;
+    padding:18px 14px;
+    margin-top:14px;
+    width:100%;
   }
-  .panel-head{display:flex; align-items:baseline; gap:12px; margin:0 0 16px;}
+  .panel-head{display:flex; align-items:baseline; gap:10px; margin-bottom:14px;}
   .panel-head .no{font-size:11px; color:var(--volt); letter-spacing:.1em; font-weight:700;}
   .panel-head h2{
     font-family:'Space Grotesk',sans-serif;
-    font-weight:700; font-size:15px; letter-spacing:.02em; margin:0;
+    font-weight:700; font-size:14px; letter-spacing:.02em;
     text-transform:uppercase;
   }
 
   .grid-options{
     display:grid;
-    grid-template-columns:repeat(auto-fit, minmax(84px,1fr));
-    gap:10px;
+    grid-template-columns:repeat(auto-fit, minmax(64px,1fr));
+    gap:8px;
+    width:100%;
   }
   .opt{
     border:1.5px solid var(--line);
     background:transparent;
     border-radius:2px;
-    padding:12px 6px 10px;
+    padding:10px 4px 8px;
     cursor:pointer;
     text-align:center;
     transition:.12s;
@@ -134,52 +213,56 @@
   .opt:hover{border-color:var(--line-strong);}
   .opt.active{border-color:var(--volt); background:rgba(214,255,63,0.08);}
   .opt .mini-grid{
-    display:grid; gap:2px; margin:0 auto 8px; width:38px; height:50px;
+    display:grid; gap:2px; margin:0 auto 6px; width:32px; height:42px;
   }
   .opt .mini-grid div{background:var(--mute); border-radius:1px;}
   .opt.active .mini-grid div{background:var(--volt);}
-  .opt .label{font-family:'JetBrains Mono',monospace; font-size:11px; font-weight:600; letter-spacing:.04em; color:var(--ink);}
+  .opt .label{font-family:'JetBrains Mono',monospace; font-size:10px; font-weight:600; color:var(--ink);}
 
-  .row{display:flex; gap:10px; flex-wrap:wrap;}
-  .toggle-group{display:flex; border:1.5px solid var(--line); border-radius:2px; overflow:hidden;}
+  .row{display:flex; gap:10px; flex-wrap:wrap; width:100%;}
+  .row > div{flex:1; min-width:130px;}
+  
+  .toggle-group{
+    display:flex;
+    border:1.5px solid var(--line);
+    border-radius:2px;
+    overflow:hidden;
+    width:100%;
+  }
   .toggle-group button{
-    flex:1; border:none; background:transparent; padding:10px 14px;
-    font-family:'JetBrains Mono', monospace; font-weight:600; font-size:11.5px;
-    letter-spacing:.04em; cursor:pointer; color:var(--mute);
+    flex:1; border:none; background:transparent; padding:9px 8px;
+    font-family:'JetBrains Mono', monospace; font-weight:600; font-size:10.5px;
+    letter-spacing:.02em; cursor:pointer; color:var(--mute);
     border-right:1.5px solid var(--line);
     transition:background .12s, color .12s;
+    text-align:center;
   }
   .toggle-group button:last-child{border-right:none;}
   .toggle-group button.active{background:var(--volt); color:#0B0B0C;}
 
-  label.field-label{display:block; font-size:10.5px; font-weight:600; margin-bottom:8px; color:var(--mute); letter-spacing:.1em; text-transform:uppercase;}
+  label.field-label{display:block; font-size:10px; font-weight:600; margin-bottom:6px; color:var(--mute); letter-spacing:.08em; text-transform:uppercase;}
 
-  /* MARGIN SLIDER */
-  .margin-slider-wrap{display:none; margin-top:14px;}
+  .margin-slider-wrap{display:none; margin-top:12px;}
   .margin-slider-wrap.show{display:block;}
-  .margin-slider-row{display:flex; align-items:center; gap:12px;}
-  input[type=range]{
-    flex:1; accent-color:var(--volt); cursor:pointer;
-  }
+  .margin-slider-row{display:flex; align-items:center; gap:10px;}
+  input[type=range]{flex:1; accent-color:var(--volt); cursor:pointer;}
   .margin-value{
-    font-family:'JetBrains Mono', monospace; font-weight:700; font-size:12px;
-    color:var(--ink); min-width:52px; text-align:right;
-    border:1.5px solid var(--line); border-radius:2px; padding:5px 8px; background:transparent;
+    font-family:'JetBrains Mono', monospace; font-weight:700; font-size:11px;
+    color:var(--ink); min-width:48px; text-align:right;
+    border:1.5px solid var(--line); border-radius:2px; padding:4px 6px; background:transparent;
   }
 
-  /* STACK VISUAL */
-  .stack-wrap{display:flex; align-items:center; gap:30px; flex-wrap:wrap;}
-  .stack{position:relative; width:80px; height:100px; flex-shrink:0;}
+  .stack-wrap{display:flex; align-items:center; gap:20px; flex-wrap:wrap;}
+  .stack{position:relative; width:70px; height:85px; flex-shrink:0;}
   .sheet{
-    position:absolute; left:50%; top:0; width:60px; height:80px;
+    position:absolute; left:50%; top:0; width:50px; height:70px;
     background:var(--bg); border:1.5px solid var(--mute);
     transform-origin:bottom center;
   }
-  .stats{font-family:'JetBrains Mono', monospace; font-size:13px; line-height:1.9; color:var(--mute);}
-  .stats .big{font-family:'Space Grotesk',sans-serif; font-size:30px; font-weight:700; color:var(--ink);}
-  .stats .arrow-sep{color:var(--volt); margin:0 10px;}
+  .stats{font-family:'JetBrains Mono', monospace; font-size:12px; line-height:1.7; color:var(--mute);}
+  .stats .big{font-family:'Space Grotesk',sans-serif; font-size:24px; font-weight:700; color:var(--ink);}
+  .stats .arrow-sep{color:var(--volt); margin:0 6px;}
 
-  /* CTA */
   .cta{
     width:100%;
     background:var(--volt);
@@ -188,12 +271,12 @@
     font-family:'Space Grotesk', sans-serif;
     font-weight:700;
     text-transform:uppercase;
-    font-size:14px;
-    letter-spacing:.08em;
-    padding:17px;
+    font-size:13px;
+    letter-spacing:.06em;
+    padding:15px 12px;
     border-radius:2px;
     cursor:pointer;
-    margin-top:24px;
+    margin-top:18px;
     transition:.12s;
   }
   .cta:disabled{background:#3a3a35; color:var(--mute); cursor:not-allowed;}
@@ -203,38 +286,35 @@
   .progress-wrap.show{display:block;}
   .bar-track{height:6px; background:var(--bg); overflow:hidden; border:1px solid var(--line);}
   .bar-fill{height:100%; width:0%; background:var(--volt); transition:width .2s;}
-  .progress-label{font-family:'JetBrains Mono',monospace; font-size:10.5px; margin-top:8px; color:var(--mute); letter-spacing:.06em;}
+  .progress-label{font-family:'JetBrains Mono',monospace; font-size:10px; margin-top:6px; color:var(--mute); letter-spacing:.04em;}
 
   .result{
     display:none;
-    margin-top:18px;
+    margin-top:16px;
     border:1.5px solid var(--volt);
-    padding:16px;
+    padding:12px 14px;
     align-items:center;
     justify-content:space-between;
-    gap:12px;
+    gap:10px;
     flex-wrap:wrap;
   }
   .result.show{display:flex;}
-  .result .rlabel{font-weight:600; font-size:11.5px; letter-spacing:.04em; color:var(--ink);}
+  .result .rlabel{font-weight:600; font-size:11px; color:var(--ink); word-break:break-word;}
   .result a{
     background:var(--volt); color:#0B0B0C; text-decoration:none;
-    padding:10px 18px; font-family:'Space Grotesk',sans-serif;
-    font-weight:700; font-size:11.5px; letter-spacing:.06em; text-transform:uppercase;
+    padding:8px 14px; font-family:'Space Grotesk',sans-serif;
+    font-weight:700; font-size:11px; letter-spacing:.04em; text-transform:uppercase;
+    border-radius:2px;
   }
 
   footer{
-    margin-top:34px;
-    font-size:10px;
+    margin-top:28px;
+    font-size:9.5px;
     color:var(--mute);
-    letter-spacing:.06em;
+    letter-spacing:.04em;
     text-align:center;
-    line-height: 1.6;
-  }
-
-  @media (max-width:560px){
-    .dropzone{padding:40px 18px;}
-    .panel{padding:20px 16px;}
+    line-height:1.6;
+    padding:0 8px;
   }
 </style>
 </head>
@@ -242,7 +322,7 @@
 <div class="wrap">
 
   <div class="masthead">
-    <div>
+    <div class="brand-group">
       <span class="brand">Suman<span class="volt-dot">Volt</span></span>
       <span class="tag">Aspirant Edition</span>
     </div>
@@ -250,13 +330,13 @@
   </div>
 
   <div class="aspirant-banner">
-    ⚡ <strong>Built for JEE, NEET, GATE & ESE Aspirants:</strong> Squeeze 100s of pages of heavy lecture slide notes into compact, pocket-friendly sheets. Invert dark slide backgrounds to save massive ink. <strong>100% Client-Side & Private</strong> — your study materials never leave your device.
+    ⚡ <strong>Built for JEE, NEET, GATE & ESE Aspirants:</strong> Squeeze 100s of pages of lecture slides into compact sheets. Invert dark slides to save printer ink. <strong>100% Client-Side & Private</strong>.
   </div>
 
   <div class="dropzone" id="dropzone">
     <input type="file" id="fileInput" accept="application/pdf">
     <div class="dz-label">Drop PDF</div>
-    <div class="dz-note">Lecture Slides / Formula Notes · Zero Uploads</div>
+    <div class="dz-note">Lecture Slides / Notes · Zero Uploads</div>
     <div id="fileChipWrap"></div>
   </div>
 
@@ -268,15 +348,15 @@
   <div class="panel" id="setupPanel" style="display:none;">
     <div class="panel-head"><span class="no">02</span><h2>Sheet & Color Tuning</h2></div>
     
-    <div class="row" style="margin-bottom:16px;">
-      <div style="flex:1; min-width:150px;">
+    <div class="row" style="margin-bottom:14px;">
+      <div>
         <label class="field-label">Paper Size</label>
         <div class="toggle-group" id="paperSizeToggle">
           <button data-v="A4" class="active">A4</button>
           <button data-v="Letter">Letter</button>
         </div>
       </div>
-      <div style="flex:1; min-width:150px;">
+      <div>
         <label class="field-label">Orientation</label>
         <div class="toggle-group" id="orientationToggle">
           <button data-v="portrait" class="active">Portrait</button>
@@ -285,15 +365,14 @@
       </div>
     </div>
 
-    <!-- INVERT COLOR TOGGLE -->
-    <div style="margin-bottom:16px;">
+    <div style="margin-bottom:14px;">
       <label class="field-label">Dark Theme Inversion (Ink Saver)</label>
       <div class="toggle-group" id="invertToggle">
-        <button data-v="off" class="active">Normal (Original Colors)</button>
-        <button data-v="on">Invert (Black Slide → White Page)</button>
+        <button data-v="off" class="active">Normal (Original)</button>
+        <button data-v="on">Invert (Black → White)</button>
       </div>
-      <p style="font-size:10px; color:var(--mute); margin:6px 0 0 0;">
-        💡 Turn ON for online class notes with dark backgrounds to turn black to white & save cartridge ink.
+      <p style="font-size:9.5px; color:var(--mute); margin-top:5px; line-height:1.4;">
+        💡 Flips dark coaching slides to white paper to cut down black toner usage.
       </p>
     </div>
 
@@ -311,13 +390,13 @@
   </div>
 
   <div class="panel" id="statsPanel" style="display:none;">
-    <div class="panel-head"><span class="no">03</span><h2>Print & Cost Savings</h2></div>
+    <div class="panel-head"><span class="no">03</span><h2>Print Savings</h2></div>
     <div class="stack-wrap">
       <div class="stack" id="stackVisual"></div>
       <div class="stats">
-        <span class="big" id="origPages">0</span> lecture pages
+        <span class="big" id="origPages">0</span> pages
         <span class="arrow-sep">→</span>
-        <span class="big" id="newSheets">0</span> print sheets
+        <span class="big" id="newSheets">0</span> sheets
         <br>
         <span id="savedPct">0% less paper</span>
       </div>
@@ -331,21 +410,19 @@
     </div>
 
     <div class="result" id="result">
-      <div class="rlabel" id="resultLabel">Print-Ready PDF (100% Quality)</div>
+      <div class="rlabel" id="resultLabel">Print-Ready PDF</div>
       <a id="downloadLink" download="sumanvolt-print-ready.pdf">Download</a>
     </div>
   </div>
 
   <footer>
-    Crafted for Aspirants by SumanVolt · 100% In-Browser Vector & Ink-Saving Engine · No Servers, Complete Privacy
+    Crafted for Aspirants by SumanVolt · 100% In-Browser Vector & Ink-Saving Engine · Never Uploaded
   </footer>
 </div>
 
 <script>
-// Configure pdf.js worker
 pdfjsLib.GlobalWorkerOptions.workerSrc = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
 
-// Service Worker for full Offline PWA operation
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => navigator.serviceWorker.register('./sw.js'));
 }
@@ -392,7 +469,6 @@ const PAPER_PT = {
   Letter: [612, 792],
 };
 
-// UI: Layout Options
 const layoutOptionsEl = document.getElementById('layoutOptions');
 Object.entries(LAYOUTS).forEach(([n, cfg]) => {
   const opt = document.createElement('div');
@@ -417,7 +493,6 @@ Object.entries(LAYOUTS).forEach(([n, cfg]) => {
   layoutOptionsEl.appendChild(opt);
 });
 
-// Toggles
 function wireToggle(id, key){
   const group = document.getElementById(id);
   group.querySelectorAll('button').forEach(btn=>{
@@ -432,7 +507,6 @@ wireToggle('paperSizeToggle','paperSize');
 wireToggle('orientationToggle','orientation');
 wireToggle('invertToggle','invertColors');
 
-// Margins
 const marginToggle = document.getElementById('marginToggle');
 const marginSliderWrap = document.getElementById('marginSliderWrap');
 const marginRange = document.getElementById('marginRange');
@@ -452,7 +526,6 @@ marginRange.addEventListener('input', e=>{
   marginValue.textContent = `${state.marginMm}mm`;
 });
 
-// File Handling
 const dropzone = document.getElementById('dropzone');
 const fileInput = document.getElementById('fileInput');
 
@@ -474,7 +547,6 @@ async function handleFile(file){
     return;
   }
   state.file = file;
-  dropzone.classList.add('has-file');
   const chipWrap = document.getElementById('fileChipWrap');
   chipWrap.innerHTML = '';
   const chip = document.createElement('div');
@@ -501,7 +573,6 @@ async function handleFile(file){
 
 function resetFile(){
   state.file = null; state.rawBuffer = null; state.srcDoc = null; state.pdfJsDoc = null; state.numPages = 0;
-  dropzone.classList.remove('has-file');
   document.getElementById('fileChipWrap').innerHTML = '';
   document.getElementById('layoutPanel').style.display = 'none';
   document.getElementById('setupPanel').style.display = 'none';
@@ -524,13 +595,12 @@ function updateStats(){
     const s = document.createElement('div');
     s.className='sheet';
     s.style.bottom = (i*4)+'px';
-    s.style.left = `calc(50% - 30px + ${i*2}px)`;
+    s.style.left = `calc(50% - 25px + ${i*2}px)`;
     s.style.zIndex = i;
     stack.appendChild(s);
   }
 }
 
-// Processing: Pure Vector (Default) OR High-DPI Inverted Render
 document.getElementById('convertBtn').addEventListener('click', convert);
 
 async function convert(){
@@ -557,7 +627,6 @@ async function convert(){
     const cellH = (ph - marginPt * (rows + 1)) / rows;
 
     if (state.invertColors === 'off') {
-      // 1. PURE LOSSLESS VECTOR MERGING (Original Quality)
       const embeddedPages = await outDoc.embedPdf(state.srcDoc, state.srcDoc.getPageIndices());
 
       for (let sheetIdx = 0; sheetIdx < totalSheets; sheetIdx++){
@@ -589,11 +658,10 @@ async function convert(){
 
         const pct = Math.round(((sheetIdx + 1) / totalSheets) * 100);
         barFill.style.width = pct + '%';
-        progressLabel.textContent = `Assembling vector sheet ${sheetIdx + 1} of ${totalSheets}…`;
+        progressLabel.textContent = `Assembling sheet ${sheetIdx + 1} of ${totalSheets}…`;
         await new Promise(r => setTimeout(r, 0));
       }
     } else {
-      // 2. 300-DPI HIGH RESOLUTION LOCAL INVERT ENGINE (Save Ink on Black Slides)
       for (let sheetIdx = 0; sheetIdx < totalSheets; sheetIdx++){
         const sheet = outDoc.addPage([pw, ph]);
 
@@ -602,8 +670,6 @@ async function convert(){
           if (pageNum > state.numPages) break;
 
           const page = await state.pdfJsDoc.getPage(pageNum);
-          
-          // Render at 300 DPI for ultra-sharp inverted printing
           const renderDPI = 300 / 72;
           const viewport = page.getViewport({ scale: renderDPI });
 
@@ -614,17 +680,15 @@ async function convert(){
 
           await page.render({ canvasContext: ctx, viewport }).promise;
 
-          // Invert Pixel Buffer in memory (Black -> White, White -> Black)
           const imgData = ctx.getImageData(0, 0, canvas.width, canvas.height);
           const d = imgData.data;
           for (let i = 0; i < d.length; i += 4) {
-            d[i] = 255 - d[i];         // Red
-            d[i+1] = 255 - d[i+1];     // Green
-            d[i+2] = 255 - d[i+2];     // Blue
+            d[i] = 255 - d[i];
+            d[i+1] = 255 - d[i+1];
+            d[i+2] = 255 - d[i+2];
           }
           ctx.putImageData(imgData, 0, 0);
 
-          // Convert inverted canvas to PNG and embed
           const pngBlob = await new Promise(res => canvas.toBlob(res, 'image/png'));
           const pngBytes = await pngBlob.arrayBuffer();
           const embeddedImg = await outDoc.embedPng(pngBytes);
