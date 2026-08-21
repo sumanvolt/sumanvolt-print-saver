@@ -3,13 +3,13 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SumanVolt — Print Saver</title>
-<link rel="icon" type="image/svg+xml" href="./favicon.svg">
-<link rel="manifest" href="manifest.json">
+<title>SumanVolt — Print Saver for JEE / NEET / GATE Aspirants</title>
+<link rel="manifest" href="./manifest.json">
 <meta name="theme-color" content="#D6FF3F">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
-<!-- Standalone client-side Vector PDF Engine -->
+<!-- Client-side PDF Engines (Vector + Canvas Inversion) -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js"></script>
 <style>
   :root{
@@ -35,11 +35,11 @@
   /* MASTHEAD */
   .masthead{
     display:flex; align-items:center; justify-content:space-between;
-    padding-bottom:30px;
+    padding-bottom:14px;
   }
-  .brand{font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:16px; letter-spacing:.02em; text-transform:uppercase;}
+  .brand{font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:18px; letter-spacing:.02em; text-transform:uppercase;}
   .brand .volt-dot{color:var(--volt);}
-  .tag{font-size:10px; color:var(--mute); letter-spacing:.14em; text-transform:uppercase;}
+  .tag{font-size:10px; color:var(--volt); letter-spacing:.14em; text-transform:uppercase; background:rgba(214,255,63,0.1); padding:4px 8px; border-radius:2px; border:1px solid rgba(214,255,63,0.3);}
 
   .install-btn{
     background:var(--volt); color:#0B0B0C; border:none;
@@ -49,14 +49,25 @@
     display:none;
   }
 
+  .aspirant-banner{
+    background:rgba(214,255,63,0.04);
+    border:1px dashed var(--line-strong);
+    padding:12px 16px;
+    margin-bottom:24px;
+    font-size:11.5px;
+    line-height:1.6;
+    color:var(--ink);
+  }
+  .aspirant-banner strong{color:var(--volt);}
+
   /* HERO / DROPZONE */
   .dropzone{
     border:1.5px solid var(--line-strong);
     background:var(--panel);
-    padding:64px 24px;
+    padding:50px 24px;
     text-align:center;
     cursor:pointer;
-    transition:padding .25s ease, background .2s ease, border-color .2s ease, width .25s ease, margin .25s ease;
+    transition:padding .25s ease, background .2s ease, border-color .2s ease;
     position:relative;
   }
   .dropzone:hover, .dropzone.drag{
@@ -68,19 +79,19 @@
     font-family:'Space Grotesk', sans-serif;
     font-weight:900;
     text-transform:uppercase;
-    font-size:clamp(40px,9vw,72px);
+    font-size:clamp(36px,8vw,64px);
     line-height:.96;
     letter-spacing:-.01em;
     margin:0;
   }
   .dz-note{
-    font-size:10.5px; color:var(--mute); letter-spacing:.16em; text-transform:uppercase;
-    margin-top:16px;
+    font-size:11px; color:var(--mute); letter-spacing:.12em; text-transform:uppercase;
+    margin-top:14px;
   }
   .file-chip{
     display:inline-flex;align-items:center;gap:12px;
     background:var(--volt);color:#0B0B0C;
-    padding:9px 16px;margin-top:22px;
+    padding:9px 16px;margin-top:20px;
     font-family:'JetBrains Mono', monospace; font-weight:700; font-size:12px;
     letter-spacing:.04em;
   }
@@ -91,24 +102,14 @@
   }
   .file-chip button:hover{opacity:1;}
 
-  @media (max-width:560px){
-    .dropzone.has-file{
-      width:100vw;
-      margin-left:calc(50% - 50vw);
-      margin-right:calc(50% - 50vw);
-      padding:56px 20px 60px;
-      border-left:none; border-right:none;
-    }
-  }
-
   /* SECTIONS */
   .panel{
     background:var(--panel);
     border:1.5px solid var(--line);
-    padding:26px 24px 28px;
+    padding:24px 22px;
     margin-top:16px;
   }
-  .panel-head{display:flex; align-items:baseline; gap:12px; margin:0 0 18px;}
+  .panel-head{display:flex; align-items:baseline; gap:12px; margin:0 0 16px;}
   .panel-head .no{font-size:11px; color:var(--volt); letter-spacing:.1em; font-weight:700;}
   .panel-head h2{
     font-family:'Space Grotesk',sans-serif;
@@ -224,16 +225,16 @@
 
   footer{
     margin-top:34px;
-    font-size:9.5px;
+    font-size:10px;
     color:var(--mute);
-    letter-spacing:.08em;
+    letter-spacing:.06em;
     text-align:center;
-    text-transform:uppercase;
+    line-height: 1.6;
   }
 
   @media (max-width:560px){
-    .dropzone{padding:48px 18px;}
-    .panel{padding:20px 18px 22px;}
+    .dropzone{padding:40px 18px;}
+    .panel{padding:20px 16px;}
   }
 </style>
 </head>
@@ -243,28 +244,33 @@
   <div class="masthead">
     <div>
       <span class="brand">Suman<span class="volt-dot">Volt</span></span>
-      <span class="tag" style="margin-left:8px;">Print Saver</span>
+      <span class="tag">Aspirant Edition</span>
     </div>
     <button id="installAppBtn" class="install-btn">📲 Install App</button>
   </div>
 
+  <div class="aspirant-banner">
+    ⚡ <strong>Built for JEE, NEET, GATE & ESE Aspirants:</strong> Squeeze 100s of pages of heavy lecture slide notes into compact, pocket-friendly sheets. Invert dark slide backgrounds to save massive ink. <strong>100% Client-Side & Private</strong> — your study materials never leave your device.
+  </div>
+
   <div class="dropzone" id="dropzone">
     <input type="file" id="fileInput" accept="application/pdf">
-    <div class="dz-label">Drop Here</div>
-    <div class="dz-note">or tap to choose · PDF only (100% Vector Quality)</div>
+    <div class="dz-label">Drop PDF</div>
+    <div class="dz-note">Lecture Slides / Formula Notes · Zero Uploads</div>
     <div id="fileChipWrap"></div>
   </div>
 
   <div class="panel" id="layoutPanel" style="display:none;">
-    <div class="panel-head"><span class="no">01</span><h2>Pages / Sheet</h2></div>
+    <div class="panel-head"><span class="no">01</span><h2>Pages / Sheet (N-Up)</h2></div>
     <div class="grid-options" id="layoutOptions"></div>
   </div>
 
   <div class="panel" id="setupPanel" style="display:none;">
-    <div class="panel-head"><span class="no">02</span><h2>Sheet Setup</h2></div>
+    <div class="panel-head"><span class="no">02</span><h2>Sheet & Color Tuning</h2></div>
+    
     <div class="row" style="margin-bottom:16px;">
       <div style="flex:1; min-width:150px;">
-        <label class="field-label">Paper</label>
+        <label class="field-label">Paper Size</label>
         <div class="toggle-group" id="paperSizeToggle">
           <button data-v="A4" class="active">A4</button>
           <button data-v="Letter">Letter</button>
@@ -278,10 +284,23 @@
         </div>
       </div>
     </div>
-    <label class="field-label">Margin</label>
+
+    <!-- INVERT COLOR TOGGLE -->
+    <div style="margin-bottom:16px;">
+      <label class="field-label">Dark Theme Inversion (Ink Saver)</label>
+      <div class="toggle-group" id="invertToggle">
+        <button data-v="off" class="active">Normal (Original Colors)</button>
+        <button data-v="on">Invert (Black Slide → White Page)</button>
+      </div>
+      <p style="font-size:10px; color:var(--mute); margin:6px 0 0 0;">
+        💡 Turn ON for online class notes with dark backgrounds to turn black to white & save cartridge ink.
+      </p>
+    </div>
+
+    <label class="field-label">Margins</label>
     <div class="toggle-group" id="marginToggle">
       <button data-v="none" class="active">None</button>
-      <button data-v="on">Add</button>
+      <button data-v="on">Add Margin</button>
     </div>
     <div class="margin-slider-wrap" id="marginSliderWrap">
       <div class="margin-slider-row">
@@ -292,36 +311,41 @@
   </div>
 
   <div class="panel" id="statsPanel" style="display:none;">
-    <div class="panel-head"><span class="no">03</span><h2>Savings</h2></div>
+    <div class="panel-head"><span class="no">03</span><h2>Print & Cost Savings</h2></div>
     <div class="stack-wrap">
       <div class="stack" id="stackVisual"></div>
       <div class="stats">
-        <span class="big" id="origPages">0</span> pages
+        <span class="big" id="origPages">0</span> lecture pages
         <span class="arrow-sep">→</span>
-        <span class="big" id="newSheets">0</span> sheets
+        <span class="big" id="newSheets">0</span> print sheets
         <br>
         <span id="savedPct">0% less paper</span>
       </div>
     </div>
 
-    <button class="cta" id="convertBtn" disabled>Convert →</button>
+    <button class="cta" id="convertBtn" disabled>Generate Economical PDF →</button>
 
     <div class="progress-wrap" id="progressWrap">
       <div class="bar-track"><div class="bar-fill" id="barFill"></div></div>
-      <div class="progress-label" id="progressLabel">Composing vector layout…</div>
+      <div class="progress-label" id="progressLabel">Preparing layout…</div>
     </div>
 
     <div class="result" id="result">
-      <div class="rlabel">Vector Print-Ready PDF (Zero Quality Loss)</div>
+      <div class="rlabel" id="resultLabel">Print-Ready PDF (100% Quality)</div>
       <a id="downloadLink" download="sumanvolt-print-ready.pdf">Download</a>
     </div>
   </div>
 
-  <footer>SumanVolt · Processed 100% locally in vector format · Never uploaded</footer>
+  <footer>
+    Crafted for Aspirants by SumanVolt · 100% In-Browser Vector & Ink-Saving Engine · No Servers, Complete Privacy
+  </footer>
 </div>
 
 <script>
-// PWA & Service Worker Registration
+// Configure pdf.js worker
+pdfjsLib.GlobalWorkerOptions.workerSrc = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
+
+// Service Worker for full Offline PWA operation
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => navigator.serviceWorker.register('./sw.js'));
 }
@@ -351,11 +375,14 @@ const LAYOUTS = {
 
 let state = {
   file: null,
+  rawBuffer: null,
   srcDoc: null,
+  pdfJsDoc: null,
   numPages: 0,
   perSheet: 4,
   paperSize: "A4",
   orientation: "portrait",
+  invertColors: "off",
   marginMode: "none",
   marginMm: 5,
 };
@@ -365,7 +392,7 @@ const PAPER_PT = {
   Letter: [612, 792],
 };
 
-// UI Layout options
+// UI: Layout Options
 const layoutOptionsEl = document.getElementById('layoutOptions');
 Object.entries(LAYOUTS).forEach(([n, cfg]) => {
   const opt = document.createElement('div');
@@ -403,8 +430,9 @@ function wireToggle(id, key){
 }
 wireToggle('paperSizeToggle','paperSize');
 wireToggle('orientationToggle','orientation');
+wireToggle('invertToggle','invertColors');
 
-// Margin controls
+// Margins
 const marginToggle = document.getElementById('marginToggle');
 const marginSliderWrap = document.getElementById('marginSliderWrap');
 const marginRange = document.getElementById('marginRange');
@@ -442,7 +470,7 @@ fileInput.addEventListener('change', e=>{
 
 async function handleFile(file){
   if (file.type !== 'application/pdf' && !file.name.endsWith('.pdf')){
-    alert('Please choose a PDF file.');
+    alert('Please choose a valid PDF file.');
     return;
   }
   state.file = file;
@@ -458,8 +486,9 @@ async function handleFile(file){
   chip.appendChild(removeBtn);
   chipWrap.appendChild(chip);
 
-  const buf = await file.arrayBuffer();
-  state.srcDoc = await PDFLib.PDFDocument.load(buf);
+  state.rawBuffer = await file.arrayBuffer();
+  state.srcDoc = await PDFLib.PDFDocument.load(state.rawBuffer.slice(0));
+  state.pdfJsDoc = await pdfjsLib.getDocument({ data: state.rawBuffer.slice(0) }).promise;
   state.numPages = state.srcDoc.getPageCount();
 
   document.getElementById('layoutPanel').style.display = 'block';
@@ -471,7 +500,7 @@ async function handleFile(file){
 }
 
 function resetFile(){
-  state.file = null; state.srcDoc = null; state.numPages = 0;
+  state.file = null; state.rawBuffer = null; state.srcDoc = null; state.pdfJsDoc = null; state.numPages = 0;
   dropzone.classList.remove('has-file');
   document.getElementById('fileChipWrap').innerHTML = '';
   document.getElementById('layoutPanel').style.display = 'none';
@@ -501,7 +530,7 @@ function updateStats(){
   }
 }
 
-// Vector-based N-Up Conversion (Pure Lossless PDF Embedding)
+// Processing: Pure Vector (Default) OR High-DPI Inverted Render
 document.getElementById('convertBtn').addEventListener('click', convert);
 
 async function convert(){
@@ -521,75 +550,123 @@ async function convert(){
 
     const outDoc = await PDFLib.PDFDocument.create();
     const totalSheets = Math.ceil(state.numPages / state.perSheet);
-    
-    // Embed all original pages directly as scalable vector objects
-    const embeddedPages = await outDoc.embedPdf(state.srcDoc, state.srcDoc.getPageIndices());
 
-    // Calculate margins and cell dimensions in standard PDF points (72 DPI)
     const marginMm = state.marginMode === 'on' ? state.marginMm : 0;
     const marginPt = marginMm * (72 / 25.4);
     const cellW = (pw - marginPt * (cols + 1)) / cols;
     const cellH = (ph - marginPt * (rows + 1)) / rows;
 
-    for (let sheetIdx = 0; sheetIdx < totalSheets; sheetIdx++){
-      const sheet = outDoc.addPage([pw, ph]);
+    if (state.invertColors === 'off') {
+      // 1. PURE LOSSLESS VECTOR MERGING (Original Quality)
+      const embeddedPages = await outDoc.embedPdf(state.srcDoc, state.srcDoc.getPageIndices());
 
-      for (let cell = 0; cell < state.perSheet; cell++){
-        const pIndex = sheetIdx * state.perSheet + cell;
-        if (pIndex >= state.numPages) break;
+      for (let sheetIdx = 0; sheetIdx < totalSheets; sheetIdx++){
+        const sheet = outDoc.addPage([pw, ph]);
 
-        const embeddedPage = embeddedPages[pIndex];
-        const scale = Math.min(cellW / embeddedPage.width, cellH / embeddedPage.height);
-        const drawW = embeddedPage.width * scale;
-        const drawH = embeddedPage.height * scale;
+        for (let cell = 0; cell < state.perSheet; cell++){
+          const pIndex = sheetIdx * state.perSheet + cell;
+          if (pIndex >= state.numPages) break;
 
-        const col = cell % cols;
-        const row = Math.floor(cell / cols); // 0 is top row
+          const embeddedPage = embeddedPages[pIndex];
+          const scale = Math.min(cellW / embeddedPage.width, cellH / embeddedPage.height);
+          const drawW = embeddedPage.width * scale;
+          const drawH = embeddedPage.height * scale;
 
-        // Position coordinates (PDF origin (0,0) is at the bottom-left)
-        const cellX = marginPt + col * (cellW + marginPt);
-        const cellY = ph - ((row + 1) * (cellH + marginPt));
+          const col = cell % cols;
+          const row = Math.floor(cell / cols);
 
-        const x = cellX + (cellW - drawW) / 2;
-        const y = cellY + (cellH - drawH) / 2;
+          const cellX = marginPt + col * (cellW + marginPt);
+          const cellY = ph - ((row + 1) * (cellH + marginPt));
+          const x = cellX + (cellW - drawW) / 2;
+          const y = cellY + (cellH - drawH) / 2;
 
-        // Draw the native vector page onto the target sheet
-        sheet.drawPage(embeddedPage, {
-          x: x,
-          y: y,
-          width: drawW,
-          height: drawH
-        });
+          sheet.drawPage(embeddedPage, { x, y, width: drawW, height: drawH });
+          sheet.drawRectangle({
+            x: cellX, y: cellY, width: cellW, height: cellH,
+            borderColor: PDFLib.rgb(0, 0, 0), borderWidth: 0.5, opacity: 0.15
+          });
+        }
 
-        // Draw crisp divider border
-        sheet.drawRectangle({
-          x: cellX,
-          y: cellY,
-          width: cellW,
-          height: cellH,
-          borderColor: PDFLib.rgb(0, 0, 0),
-          borderWidth: 0.5,
-          opacity: 0.15
-        });
+        const pct = Math.round(((sheetIdx + 1) / totalSheets) * 100);
+        barFill.style.width = pct + '%';
+        progressLabel.textContent = `Assembling vector sheet ${sheetIdx + 1} of ${totalSheets}…`;
+        await new Promise(r => setTimeout(r, 0));
       }
+    } else {
+      // 2. 300-DPI HIGH RESOLUTION LOCAL INVERT ENGINE (Save Ink on Black Slides)
+      for (let sheetIdx = 0; sheetIdx < totalSheets; sheetIdx++){
+        const sheet = outDoc.addPage([pw, ph]);
 
-      const pct = Math.round(((sheetIdx + 1) / totalSheets) * 100);
-      barFill.style.width = pct + '%';
-      progressLabel.textContent = `Assembling sheet ${sheetIdx + 1} of ${totalSheets}…`;
-      await new Promise(r => setTimeout(r, 0));
+        for (let cell = 0; cell < state.perSheet; cell++){
+          const pageNum = sheetIdx * state.perSheet + cell + 1;
+          if (pageNum > state.numPages) break;
+
+          const page = await state.pdfJsDoc.getPage(pageNum);
+          
+          // Render at 300 DPI for ultra-sharp inverted printing
+          const renderDPI = 300 / 72;
+          const viewport = page.getViewport({ scale: renderDPI });
+
+          const canvas = document.createElement('canvas');
+          canvas.width = viewport.width;
+          canvas.height = viewport.height;
+          const ctx = canvas.getContext('2d');
+
+          await page.render({ canvasContext: ctx, viewport }).promise;
+
+          // Invert Pixel Buffer in memory (Black -> White, White -> Black)
+          const imgData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+          const d = imgData.data;
+          for (let i = 0; i < d.length; i += 4) {
+            d[i] = 255 - d[i];         // Red
+            d[i+1] = 255 - d[i+1];     // Green
+            d[i+2] = 255 - d[i+2];     // Blue
+          }
+          ctx.putImageData(imgData, 0, 0);
+
+          // Convert inverted canvas to PNG and embed
+          const pngBlob = await new Promise(res => canvas.toBlob(res, 'image/png'));
+          const pngBytes = await pngBlob.arrayBuffer();
+          const embeddedImg = await outDoc.embedPng(pngBytes);
+
+          const col = cell % cols;
+          const row = Math.floor(cell / cols);
+
+          const scale = Math.min(cellW / (viewport.width / renderDPI), cellH / (viewport.height / renderDPI));
+          const drawW = (viewport.width / renderDPI) * scale;
+          const drawH = (viewport.height / renderDPI) * scale;
+
+          const cellX = marginPt + col * (cellW + marginPt);
+          const cellY = ph - ((row + 1) * (cellH + marginPt));
+          const x = cellX + (cellW - drawW) / 2;
+          const y = cellY + (cellH - drawH) / 2;
+
+          sheet.drawImage(embeddedImg, { x, y, width: drawW, height: drawH });
+          sheet.drawRectangle({
+            x: cellX, y: cellY, width: cellW, height: cellH,
+            borderColor: PDFLib.rgb(0, 0, 0), borderWidth: 0.5, opacity: 0.15
+          });
+        }
+
+        const pct = Math.round(((sheetIdx + 1) / totalSheets) * 100);
+        barFill.style.width = pct + '%';
+        progressLabel.textContent = `Inverting & assembling sheet ${sheetIdx + 1} of ${totalSheets}…`;
+        await new Promise(r => setTimeout(r, 0));
+      }
     }
 
-    progressLabel.textContent = 'Saving lossless PDF…';
+    progressLabel.textContent = 'Finalizing PDF…';
     const outBytes = await outDoc.save();
     const blob = new Blob([outBytes], { type: 'application/pdf' });
     const url = URL.createObjectURL(blob);
     
     const downloadLink = document.getElementById('downloadLink');
     downloadLink.href = url;
-    const baseName = (state.file.name || 'document').replace(/\.pdf$/i, '');
-    downloadLink.download = `sumanvolt-${baseName}-${state.perSheet}up.pdf`;
+    const baseName = (state.file.name || 'lecture-notes').replace(/\.pdf$/i, '');
+    const modeTag = state.invertColors === 'on' ? 'inverted-' : '';
+    downloadLink.download = `sumanvolt-${modeTag}${baseName}-${state.perSheet}up.pdf`;
     document.getElementById('result').classList.add('show');
-    progressLabel.textContent = 'Done! Vector layout ready.';
+    progressLabel.textContent = 'Done! Ready for download.';
   } catch(err){
     console.error(err);
     progressLabel.textContent = 'Error: ' + err.message;
