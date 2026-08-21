@@ -1,4 +1,4 @@
-const CACHE_NAME = 'sumanvolt-v3';
+const CACHE_NAME = 'sumanvolt-v4';
 
 const ASSETS_TO_CACHE = [
   './',
